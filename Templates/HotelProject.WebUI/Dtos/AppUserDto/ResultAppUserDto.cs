@@ -11,10 +11,10 @@ namespace HotelProject.WebUI.Dtos.AppUserDto
         public string Surname { get; set; }
 
         [Required(ErrorMessage = "Kullanıcı Adı Alanı Gereklidir")]
-        public string Username { get; set; }
+        public string UserName { get; set; }
 
         [Required(ErrorMessage = "Mail Alanı Gereklidir")]
-        public string Mail { get; set; }
+        public string Email { get; set; }
 
         public string City { get; set; }
 
