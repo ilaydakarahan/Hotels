@@ -24,7 +24,8 @@ namespace HotelProject.WebApi.Controllers
         public IActionResult RoomList()
         {
             var values = _roomService.TGetList();
-            return Ok(values);
+            var rooms = _mapper.Map<List<ResultRoomDto>>(values);
+            return Ok(rooms);
         }
         [HttpPost]
         public IActionResult AddRoom(CreateRoomDto createRoomDto)

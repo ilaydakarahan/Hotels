@@ -1,4 +1,6 @@
-﻿using HotelProject.BusinessLayer.Abstract;
+﻿using AutoMapper;
+using HotelProject.BusinessLayer.Abstract;
+using HotelProject.DtoLayer.Dtos.ServiceDto;
 using HotelProject.EntityLayer;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -10,10 +12,12 @@ namespace HotelProject.WebApi.Controllers
     public class ServiceController : ControllerBase
     {
         private readonly IServiceService _serviceService;
+        private readonly IMapper _mapper;
 
-        public ServiceController(IServiceService serviceService)
+        public ServiceController(IServiceService serviceService, IMapper mapper)
         {
             _serviceService = serviceService;
+            _mapper = mapper;
         }
 
 
@@ -21,12 +25,14 @@ namespace HotelProject.WebApi.Controllers
         public IActionResult ServiceList()
         {
             var values = _serviceService.TGetList();
-            return Ok(values);
+            var services = _mapper.Map<List<ResultServiceDto>>(values);
+            return Ok(services);
         }
         [HttpPost]
-        public IActionResult AddService(Service service)
-        {
-            _serviceService.TInsert(service);
+        public IActionResult AddService(CreateServiceDto createServiceDto)
+        {      
+            var values = _mapper.Map<Service>(createServiceDto);
+            _serviceService.TInsert(values);
             return Ok();
         }
         [HttpDelete("{id}")]
@@ -37,16 +43,22 @@ namespace HotelProject.WebApi.Controllers
             return Ok();
         }
         [HttpPut]
-        public IActionResult UpdateService(Service service)
+        public IActionResult UpdateService(UpdateServiceDto updateServiceDto)
         {
-            _serviceService.TUpdate(service);
-            return Ok();
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            var values = _mapper.Map<Service>(updateServiceDto);
+            _serviceService.TUpdate(values);
+            return Ok("Başarıyla Güncellendi");
         }
         [HttpGet("{id}")]
         public IActionResult GetService(int id)
         {
             var values = _serviceService.TGetByID(id);
-            return Ok(values);
+            var service = _mapper.Map<ResultServiceDto>(values);
+            return Ok(service);
         }
     }
 }
