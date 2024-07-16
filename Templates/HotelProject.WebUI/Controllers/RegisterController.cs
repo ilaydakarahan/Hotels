@@ -1,4 +1,5 @@
-﻿using HotelProject.WebUI.Dtos.AppUserDto;
+﻿using HotelProject.EntityLayer;
+using HotelProject.WebUI.Dtos.AppUserDto;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,9 +7,9 @@ namespace HotelProject.WebUI.Controllers
 {
     public class RegisterController : Controller
     {
-        private readonly UserManager<ResultAppUserDto> _userManager;
+        private readonly UserManager<AppUser> _userManager;
 
-        public RegisterController(UserManager<ResultAppUserDto> userManager)
+        public RegisterController(UserManager<AppUser> userManager)
         {
             _userManager = userManager;
         }
@@ -24,18 +25,22 @@ namespace HotelProject.WebUI.Controllers
             {
                 return View();
             }
-            var appUser = new ResultAppUserDto()
+            var appUser = new AppUser()
             {
                 Name = appUserDto.Name,
                 Surname = appUserDto.Surname,
-                City    = appUserDto.City,
+                City = appUserDto.City,
                 Email = appUserDto.Email,
                 UserName = appUserDto.UserName
             };
-            var result = await _userManager.CreateAsync(appUser, appUserDto.Password);
-            if (result.Succeeded)
+            if (appUserDto.Password == appUserDto.ConfirmPassword)
             {
-                return RedirectToAction("Index", "Login");
+                var result = await _userManager.CreateAsync(appUser, appUserDto.Password);
+                
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Index", "Login");
+                }
             }
             return View();
         }
