@@ -1,4 +1,5 @@
 ﻿using HotelProject.DataAccessLayer.Abstract;
+using HotelProject.DataAccessLayer.Concrete;
 using HotelProject.DataAccessLayer.Repositories;
 using HotelProject.EntityLayer;
 using System;
@@ -7,11 +8,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HotelProject.DataAccessLayer.Concrete
+namespace HotelProject.DataAccessLayer.EntityFramework
 {
-    public class EfServiceDal : GenericRepository<Service>, IServiceDal
+    public class EfTestimonialDal : GenericRepository<Testimonial>, ITestimonialDal
     {
-        public EfServiceDal(Context context) : base(context)
+        public EfTestimonialDal(Context context) : base(context)
         {
         }
     }
