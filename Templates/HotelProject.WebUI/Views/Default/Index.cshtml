@@ -1,20 +1,14 @@
-﻿
-@{
+﻿@{
 	Layout = null;
 }
-
 <!DOCTYPE html>
-<html lang="en">
-	﻿
+<html lang="en">	﻿
 @await Component.InvokeAsync("_HeadPartial")
-
 <body>
 	<div class="container-fluid bg-white px-0">
 		<!-- Spinner Start -->
 		@await Component.InvokeAsync("_SpinnerPartial")
-		<!-- Spinner End -->
 		@await Component.InvokeAsync("_NavBarPartial")
-
 		@await Component.InvokeAsync("_SliderPartial")
 
 @* 		@await Component.InvokeAsync("_ReservationPartial") *@
